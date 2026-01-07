@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient To-Do List</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #4300FF;
+            --secondary: #0065F8;
+            --accent1: #00CAFF;
+            --accent2: #00FFDE;
+            --text: #2D3748;
+            --text-light: #718096;
+            --bg: #F7FAFC;
+            --card: #FFFFFF;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        #taskInput:focus {
+            outline: none;
+            border-color: var(--accent1);
+            box-shadow: 0 0 0 3px rgba(0, 202, 255, 0.2);
+        }
+
+        #addTaskBtn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #addTaskBtn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 0, 255, 0.2);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .task {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+        }
+
+        .task:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .task.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #E53E3E;
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .task:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .progress-container {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-count {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Linear Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent1));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Circular Progress */
+        .progress-circle-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .progress-circle-bg {
+            width: 100%;
+            height: 100%;
+            border: 8px solid #E2E8F0;
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+
+        .progress-circle-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 8px solid transparent;
+            border-top-color: var(--primary);
+            border-right-color: var(--secondary);
+            border-radius: 50%;
+            box-sizing: border-box;
+            clip: rect(0, 60px, 120px, 0);
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .progress-circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Celebration */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent1);
+            opacity: 0;
+            z-index: 1000;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-light);
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gradient Tasks</h1>
+            <p class="subtitle">Complete your goals in style</p>
+        </header>
+
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="What needs to be done?">
+            <button id="addTaskBtn">Add</button>
+        </div>
+
+        <div class="task-list" id="taskList">
+            <!-- Tasks will appear here -->
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-title">
+                <span>Your Progress</span>
+                <span class="progress-count" id="progressCount">0/0</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="linearProgress"></div>
+            </div>
+            
+            <div class="progress-circle-container">
+                <div class="progress-circle">
+                    <div class="progress-circle-bg"></div>
+                    <div class="progress-circle-fill" id="circularProgress"></div>
+                    <div class="progress-circle-text" id="circularProgressText">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('taskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const taskList = document.getElementById('taskList');
+            const linearProgress = document.getElementById('linearProgress');
+            const circularProgress = document.getElementById('circularProgress');
+            const circularProgressText = document.getElementById('circularProgressText');
+            const progressCount = document.getElementById('progressCount');
+            
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+            // Initialize
+            renderTasks();
+            updateProgress();
+            
+            // Add task
+            addTaskBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTask();
+            });
+            
+            function addTask() {
+                const taskText = taskInput.value.trim();
+                if (taskText) {
+                    const newTask = {
+                        id: Date.now(),
+                        text: taskText,
+                        completed: false
+                    };
+                    
+                    tasks.push(newTask);
+                    saveTasks();
+                    renderTasks();
+                    taskInput.value = '';
+                    taskInput.focus();
+                }
+            }
+            
+            function renderTasks() {
+                taskList.innerHTML = '';
+                
+                if (tasks.length === 0) {
+                    taskList.innerHTML = '<div class="empty-state">No tasks yet. Add one above!</div>';
+                    return;
+                }
+                
+                tasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task ${task.completed ? 'completed' : ''}`;
+                    taskElement.innerHTML = `
+                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}">
+                        <span class="task-text">${task.text}</span>
+                        <button class="delete-btn" data-id="${task.id}">×</button>
+                    `;
+                    
+                    taskList.appendChild(taskElement);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', toggleTask);
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', deleteTask);
+                });
+            }
+            
+            function toggleTask(e) {
+                const taskId = parseInt(e.target.getAttribute('data-id'));
+                const taskIndex = tasks.findIndex(task => task.id === taskId);
+                
+                if (taskIndex !== -1) {
+                    tasks[taskIndex].completed = e.target.checked;
+                    saveTasks();
+                    renderTasks();
+                    updateProgress();
+                    
+                    // Check if all tasks are completed
+                    if (tasks.length > 0 && tasks.every(task => task.completed)) {
+                        celebrate();
+                    }
+                }
+            }
+            
+            function deleteTask(e) {
+                const taskId = parseInt(e.target.getAttribute('data-id'));
+                tasks = tasks.filter(task => task.id !== taskId);
+                saveTasks();
+                renderTasks();
+                updateProgress();
+                e.stopPropagation();
+            }
+            
+            function updateProgress() {
+                if (tasks.length === 0) {
+                    linearProgress.style.width = '0%';
+                    circularProgress.style.transform = 'rotate(0deg)';
+                    circularProgressText.textContent = '0%';
+                    progressCount.textContent = '0/0';
+                    return;
+                }
+                
+                const completedTasks = tasks.filter(task => task.completed).length;
+                const progress = (completedTasks / tasks.length) * 100;
+                const degrees = (progress / 100) * 360;
+                
+                // Update linear progress
+                linearProgress.style.width = `${progress}%`;
+                
+                // Update circular progress
+                circularProgress.style.transform = `rotate(${degrees}deg)`;
+                circularProgressText.textContent = `${Math.round(progress)}%`;
+                
+                // Update count
+                progressCount.textContent = `${completedTasks}/${tasks.length}`;
+            }
+            
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            
+            function celebrate() {
+              const duration = 15 * 1000,
+  animationEnd = Date.now() + duration,
+  defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+const interval = setInterval(function() {
+  const timeLeft = animationEnd - Date.now();
+
+  if (timeLeft <= 0) {
+    return clearInterval(interval);
+  }
+
+  const particleCount = 50 * (timeLeft / duration);
+
+  // since particles fall down, start a bit higher than random
+  confetti(
+    Object.assign({}, defaults, {
+      particleCount,
+      origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+    })
+  );
+  confetti(
+    Object.assign({}, defaults, {
+      particleCount,
+      origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+    })
+  );
+}, 250);
+            }
+            
+            function createConfetti() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const colors = ['#4300FF', '#0065F8', '#00CAFF', '#00FFDE'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.left = `${left}vw`;
+                confetti.style.animationDuration = `${animationDuration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (animationDuration + delay) * 1000);
+            }
+        });
+        
+    </script>
+</body>
+</html>
