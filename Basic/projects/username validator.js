@@ -19,3 +19,6 @@ else if(!isNaN(name.chartAt(0)))
 else {
     console.log("Username is valid");
 }
+// concepts used
+//  length,charat(), includes(), if/else
+    
