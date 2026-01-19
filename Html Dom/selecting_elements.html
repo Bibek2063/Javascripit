@@ -1,0 +1,51 @@
+<!-- #2 Selecting HTML Elements  -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="intro"></p>
+    <p class="demo"></p>
+    <h1>Header 1</h1>
+
+    <div id="main">
+        <p>Finding HTML elements by tag name</p>
+    </div>
+    <p class="query"></p>
+    <!-- querySelectorAll -->
+    <p class="queryall">one </p>
+    <p class="queryall">two</p>
+    <script>
+        // Select element by ID
+        const introElement = document.getElementById("intro");
+        introElement.innerHTML = 'This paragraph is selected by ID.';
+        // Select elements by class name
+        const demoElements = document.getElementsByClassName("demo");
+        demoElements[0].innerHTML = 'This paragraph is selected by class name.';
+        // combine both methods
+        const firstDemoElement = document.getElementById("intro").getElementsByClassName("demo")[0];
+        firstDemoElement.innerHTML = 'This paragraph is selected by combining ID and class name.';
+
+        // finding elements by tag name
+        const headerElements = document.getElementsByTagName("h1");
+        headerElements[1].innerHTML += " This header is selected by tag name.";
+
+        document.getElementById("main").getElementsByTagName("p")[0].innerHTML += " This paragraph is also selected by tag name.";
+
+
+        // #2 Finding Html elements by css selector
+        const queryElement = document.querySelector(".query");
+        queryElement.innerHTML = "This paragraph is selected by CSS(query)selector.";
+     
+        const queryAllElements = document.querySelectorAll(".queryall");
+        queryAllElements[0].innerHTML = " This paragraph is selected by querySelectorAll.";
+        queryAllElements[1].innerHTML = " This paragraph is also selected by querySelectorAll.";
+    </script>
+</body>
+
+</html>
