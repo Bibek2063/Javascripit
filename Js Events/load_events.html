@@ -1,0 +1,36 @@
+<!-- Load Events happen when the browser has finished loading an element.
+
+       1)The two most important load events:
+
+       2)DOMContentLoaded (when HTML is ready)
+       load (waits for pages, images, CSS, etc.)
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1) DOM Content loaded -->
+
+    <p id="demo"></p>
+    <p id="demo1"></p>
+
+    <script>
+        // Add Event Listener to document
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("demo").innerHTML = "HTML is loaded!";
+        });
+
+        //Add Event listner to document 
+        document.addEventListener("load", function () {
+            document.getElementsById("demo1").innnerHTML = "page is fully loaded!";
+        });
+    </script>
+</body>
+
+</html>

@@ -15,6 +15,7 @@
         while(num>0){
             let digit=num%10;// get last digit, 4 comes first, then 3,2,1
             rev=rev*10 + digit;// 0*10+4=4, 4*10+3=43, 43*10+2=432, 432*10+1=4321
+            num=Math.floor(num/10);// remove last digit, 123,12,1,0
         }
         document.writeln("Reversed Number is: " + rev); //print number
         </script> 
