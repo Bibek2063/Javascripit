@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Attributes Demo</title>
+
+    <style>
+        .box {
+            padding: 10px;
+            margin: 10px 0;
+            background: lightgray;
+        }
+        .active {
+            background: lightgreen;
+        }
+    </style>
+</head>
+<body>
+
+<h2 id="title" class="box">Hello DOM</h2>
+
+<img id="myImg" src="https://via.placeholder.com/150" alt="demo image">
+
+<br><br>
+<button onclick="runDemo()">Run Demo</button>
+
+<script>
+function runDemo() {
+    const title = document.getElementById("title");
+    const img = document.getElementById("myImg");
+
+    // 1️⃣ getAttribute
+    console.log("Class (attribute):", title.getAttribute("class"));
+
+    // 2️⃣ setAttribute
+    title.setAttribute("data-info", "custom attribute added");
+    console.log("Data-info:", title.getAttribute("data-info"));
+
+    // 3️⃣ style.property
+    title.style.color = "blue";
+    title.style.fontSize = "20px";
+
+    // 4️⃣ classList
+    title.classList.add("active");
+    title.classList.toggle("box");
+
+    // 5️⃣ id
+    title.id = "newTitle";
+    console.log("New ID:", title.id);
+
+    // 6️⃣ className
+    title.className = "box active";
+    console.log("ClassName:", title.className);
+
+    // 7️⃣ src
+    img.src = "https://via.placeholder.com/300";
+}
+</script>
+
+</body>
+</html>

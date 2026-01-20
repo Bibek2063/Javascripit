@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+     <!-- b. WAp to input a nunber and reverse it  -->
+    <script>
+        let num=prompt("Enter a number to reverse"); //let num=1234
+        let rev=0;
+        while(num>0){
+            let digit=num%10;// get last digit, 4 comes first, then 3,2,1
+            rev=rev*10 + digit;// 0*10+4=4, 4*10+3=43, 43*10+2=432, 432*10+1=4321
+        }
+        document.writeln("Reversed Number is: " + rev); //print number
+        </script> 
+</body>
+</html>

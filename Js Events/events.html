@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Events</h1>
+    <button onclick="document.getElementById('demo').innerHTML = Date();">The time is?</button>
+    <p id="demo"></p>
+
+    <button onclick="this.innerHTML=Date()">The time is?</button>
+
+    <!-- calling a function -->
+    <br> <button onclick="displayDate()">The time is?</button>
+<p id="date"></p>
+
+    <script>
+        function displayDate(){
+            document.getElementById("date").innerText=Date();
+        }
+
+
+    // addEventListner() is prefered way to attach event
+    document.getElementById("demo").addEventListener("click", function(){
+        document.getElementById("demo").innerHTML = Date();
+    });
+    </script>
+</body>
+</html>

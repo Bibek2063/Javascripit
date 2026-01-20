@@ -1,0 +1,33 @@
+Syntax
+With single quotes:
+
+<element event='some JavaScript'>
+
+- we can use this.innerHTML or innertext to cahnge the content of itself 
+
+#common html Events
+Events      Description
+onchange    an html element has been cahnged
+onclick     the user clicks an html element 
+onmuoseover the user moves the mouse over an html element
+onmouseout 
+onkeydown   the user pushes a keywoard key 
+onload      the browser has finished loading page 
+
+#JavaScript event handlers
+An event handler is JavaScript code that runs when an event happens.
+   Event handlers can be used to handle and verify user input, user actions, and browser actions:
+
+-Things that should be done every time a page loads
+-Things that should be done when the page is closed
+-Action that should be performed when a user clicks a button
+-Content that should be verified when a user inputs data
+-And more ...
+Many different methods can be used to let JavaScript work with events:
+
+-HTML event attributes can execute JavaScript code directly
+-HTML event attributes can call JavaScript functions
+-You can assign your own event handler functions to HTML elements
+-You can prevent events from being sent or being handled
+-And more ...
+

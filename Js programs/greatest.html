@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- program to find greater number among three numbers -->
+        <script>
+            let a=prompt("Enter first number");
+            let b=prompt("Enter second number");
+            let c=prompt("Enter third number");
+    
+            let greatest=findGreatest(a,b,c);
+            document.writeln("Greatest number is: " + greatest);
+    
+            function findGreatest(x,y,z){
+                if(x>=y && x>=z){
+                    return x;
+                } else if(y>=x && y>=z){
+                    return y;
+                } else {
+                    return z;
+
+                }
+            }
+        </script>
+    <script>
+
+    </script>
+</body>
+</html>

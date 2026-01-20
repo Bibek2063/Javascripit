@@ -1,0 +1,34 @@
+  
+initialization;
+  while(condition)
+     {
+        statement;
+        next;
+     }
+
+     do 
+     {
+        statement;
+        next;
+
+     }
+     while(condition)
+     
+     Note:while and do while is used when theere is not fixed iterations
+
+     for(initialization;condition;next)
+     {
+        statement;
+     }
+     Note:if no of iterations are already is fixed 
+
+     Questions:
+     a. WAP to display "Good Morining 20 times" (u can use any loop )
+     b. WAp to input a nunber and reverse it 
+     c.WAP to check if a input number us prime or composite
+
+     homeworks:
+     d.WAP to converet decinmal into binary 
+     e.WAP to convert binary number into decinmal
+     f. WAP to input 3 sides of a triangle , check if it valid triangle or not, if valid check of it is equilateral, iscoceles,or scalene triangle
+

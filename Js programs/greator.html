@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        let x=prompt("Enter first number");
+        let y=prompt("Enter second number");
+        let z=prompt("Enter third number");
+    console.log(findGreater(x,y));
+    document.writeln(findGreater(x,y));
+        
+        function findGreater(a, b) {
+            if(a>b){
+                return a + " is greater";
+            } else if(b>a){
+                return b + " is greater";
+            } else {
+                return "Both are equal";
+            }
+        }
+    </script>
+</body>
+</html>
