@@ -1,0 +1,100 @@
+<!-- Project Skills
+JavaScript Variables
+JavaScript Functions
+JavaScript HTML DOM
+JavaScript Events (onclick attributes)
+JavaScript localStorage (to Save and Restore the counter) -->
+<!-- this is made with onclick so in next we make using eventlistner -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Counter</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+
+  <div id="container" class="bg-white rounded-2xl shadow-xl px-10 py-20 w-150 h-100 text-center">
+
+    <!-- Count -->
+    <p id="count" class="text-9xl font-bold text-gray-800 mb-15">
+      0
+    </p>
+
+    <!-- Buttons -->
+    <div id="buttons" class="flex justify-between gap-4">
+
+      <button class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition" onclick="increasecount()">
+        +
+      </button>
+
+      <button onclick="decreasecount()" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+        -
+      </button>
+
+      <button onclick="resetcount()" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+        Reset
+      </button>
+
+      <button onclick="savecount()" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+        Save
+      </button>
+      <button onclick="loadcount()" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+        Load
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- javascript here baby -->
+   <script>
+    // declare count 
+    let count=0;
+
+    //Function to displlay counter
+    function updatecount()
+    {
+        document.getElementById("count").innerText=count;
+    }
+
+    //function to increase the counter
+    function increasecount()
+    {
+        count++;
+        updatecount();
+    }
+
+    //function to decrease the counter
+    function decreasecount()
+    {
+        count--;
+        updatecount();
+    }
+    //function to reset the counter
+    function resetcount()
+    {
+        count=0;
+        updatecount();
+    }
+    //function to save the counetr
+    function savecount()
+    {
+        localStorage.setItem("count",count);
+    }
+    //function to load the counter
+    function loadcount()
+    {
+        let saved=localStorage.getItem("count");
+        if(saved !==null){
+            count=Number(saved);
+        }
+        updatecount();
+    }
+   </script>
+</body>
+</html>

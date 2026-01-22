@@ -1,0 +1,80 @@
+<!-- keyboard events 
+ Keyboard Events happen when the user presses a key on the keyboard:
+
+  keydown (key is pressed down)
+  keyup (key is released)
+  keypress (deprecated)
+-->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Events Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .log {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      min-height: 120px;
+      white-space: pre-line;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Keyboard Events (keydown & keyup)</h2>
+
+  <input type="text" id="inputBox" placeholder="Type something here..." />
+
+  <div class="log" id="logBox">Event log:</div>
+  <!-- for detect if enter key is presses or not  -->
+  <p id="demo">hi </p> 
+  <script>
+    const input = document.getElementById("inputBox");
+    const logBox = document.getElementById("logBox");
+
+    function log(message) {
+      logBox.textContent += "\n" + message;
+    }
+
+    input.addEventListener("keydown", (event) => {
+      log(`keydown → key: ${event.key}, code: ${event.code}`);
+    });
+
+    input.addEventListener("keyup", (event) => {
+      log(`keyup → key: ${event.key}, code: ${event.code}`);
+    });
+
+    /*
+      keypress is deprecated.
+      It only worked reliably for character keys.
+      Do NOT use it in real projects.
+    */
+  </script>
+
+<!-- also look for other functionality 
+ like detecting enter  -->
+ <script>
+    const enter= document.getElementById("inputBox").addEventListener("keydown",function(event)
+{
+    if(event.code==="Enter")
+{
+    document.getElementById("demo").innerText="ENter is pressed";
+}
+});
+ </script>
+ const
+</body>
+</html>

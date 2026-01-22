@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Events - addEventListener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .box {
+      width: 260px;
+      height: 140px;
+      border: 2px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      margin-bottom: 20px;
+    }
+
+    #log {
+      border: 1px solid #999;
+      padding: 10px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Mouse Events using addEventListener</h2>
+
+<div id="box" class="box">
+  Interact with me
+</div>
+
+<strong>Event log:</strong>
+<div id="log">No event yet</div>
+
+<script>
+  const box = document.getElementById("box");
+  const log = document.getElementById("log");
+
+  function show(message) {
+    log.textContent = message;
+  }
+
+  box.addEventListener("click", () => {
+    show("click: single click");
+  });
+
+  box.addEventListener("dblclick", () => {
+    show("dblclick: double click");
+  });
+
+  box.addEventListener("mousedown", () => {
+    show("mousedown: mouse button pressed");
+  });
+
+  box.addEventListener("mouseup", () => {
+    show("mouseup: mouse button released");
+  });
+
+  box.addEventListener("mouseenter", () => {
+    show("mouseenter: mouse entered");
+  });
+
+  box.addEventListener("mouseleave", () => {
+    show("mouseleave: mouse left");
+  });
+
+  box.addEventListener("mousemove", () => {
+    show("mousemove: mouse moving");
+  });
+
+  box.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    show("contextmenu: right click detected");
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Advanced Todo App</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-r from-purple-200 via-pink-100 to-indigo-200 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6">
+
+    <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">Advanced Todo List</h1>
+
+    <!-- Add Task Section -->
+    <div class="flex flex-col gap-3 mb-4 p-4 border-2 border-indigo-300 rounded-2xl bg-indigo-50">
+      
+      <input id="taskInput" type="text" placeholder="Add a new task..."
+             class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+
+      <!-- Priority Buttons with colored section -->
+      <div class="flex justify-between gap-2 border-2 border-indigo-200 rounded-xl p-2 bg-white">
+        <button onclick="setPriority('Low')" id="lowBtn" 
+                class="flex-1 py-2 rounded-xl border text-green-600 hover:bg-green-100 transition">Low</button>
+        <button onclick="setPriority('Medium')" id="mediumBtn" 
+                class="flex-1 py-2 rounded-xl border text-yellow-500 hover:bg-yellow-100 transition">Medium</button>
+        <button onclick="setPriority('High')" id="highBtn" 
+                class="flex-1 py-2 rounded-xl border text-red-500 hover:bg-red-100 transition">High</button>
+      </div>
+
+      <button onclick="addTask()" class="w-full py-2 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition">Add Task</button>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex justify-center gap-2 mb-4">
+      <button onclick="filterTasks('All')" class="px-3 py-1 bg-gray-200 rounded-xl hover:bg-gray-300 transition">All</button>
+      <button onclick="filterTasks('Pending')" class="px-3 py-1 bg-gray-200 rounded-xl hover:bg-gray-300 transition">Pending</button>
+      <button onclick="filterTasks('Completed')" class="px-3 py-1 bg-gray-200 rounded-xl hover:bg-gray-300 transition">Completed</button>
+    </div>
+
+    <!-- Task List -->
+    <ul id="taskList" class="space-y-2 mb-4"></ul>
+
+    <!-- Clear All -->
+    <button onclick="clearAll()" class="w-full py-2 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 transition">Clear All</button>
+
+  </div>
+
+  <script>
+    let tasks = [];
+    let priority = "Low";
+    let currentFilter = 'All';
+
+    function setPriority(p) {
+      priority = p;
+      document.getElementById("lowBtn").classList.remove("bg-green-200");
+      document.getElementById("mediumBtn").classList.remove("bg-yellow-200");
+      document.getElementById("highBtn").classList.remove("bg-red-200");
+
+      if(p === "Low") document.getElementById("lowBtn").classList.add("bg-green-200");
+      if(p === "Medium") document.getElementById("mediumBtn").classList.add("bg-yellow-200");
+      if(p === "High") document.getElementById("highBtn").classList.add("bg-red-200");
+    }
+
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const text = input.value.trim();
+      if(!text) return;
+      tasks.push({ text, completed: false, priority });
+      input.value = "";
+      priority = "Low";
+      setPriority("Low");
+      displayTasks();
+      saveTasks();
+    }
+
+    function toggleComplete(i) {
+      tasks[i].completed = !tasks[i].completed;
+      displayTasks();
+      saveTasks();
+    }
+
+    function editTask(i, newText) {
+      tasks[i].text = newText.trim() || tasks[i].text;
+      displayTasks();
+      saveTasks();
+    }
+
+    function removeTask(i) {
+      tasks.splice(i, 1);
+      displayTasks();
+      saveTasks();
+    }
+
+    function clearAll() {
+      tasks = [];
+      displayTasks();
+      saveTasks();
+    }
+
+    function filterTasks(filter) {
+      currentFilter = filter;
+      displayTasks();
+    }
+
+    function displayTasks() {
+      const list = document.getElementById("taskList");
+      list.innerHTML = "";
+
+      let filteredTasks = tasks;
+      if(currentFilter === 'Pending') filteredTasks = tasks.filter(t => !t.completed);
+      if(currentFilter === 'Completed') filteredTasks = tasks.filter(t => t.completed);
+
+      filteredTasks.forEach((task, i) => {
+        const li = document.createElement("li");
+        li.className = "flex justify-between items-center px-4 py-2 rounded-xl hover:bg-gray-100 transition border";
+
+        const leftDiv = document.createElement("div");
+        leftDiv.className = "flex items-center gap-2";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.onchange = () => toggleComplete(i);
+
+        const textSpan = document.createElement("span");
+        textSpan.textContent = task.text;
+        textSpan.contentEditable = true;
+        textSpan.className = `px-1 ${task.completed ? "line-through text-gray-400" : ""}`;
+        textSpan.onblur = e => editTask(i, e.target.textContent);
+
+        const priorityBadge = document.createElement("span");
+        priorityBadge.textContent = task.priority;
+        priorityBadge.className = `
+          text-white px-2 py-0.5 rounded-full text-xs 
+          ${task.priority === "High" ? "bg-red-500" : task.priority === "Medium" ? "bg-yellow-400" : "bg-green-500"}
+        `;
+
+        leftDiv.append(checkbox, textSpan, priorityBadge);
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.className = "bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition text-sm";
+        delBtn.onclick = () => removeTask(i);
+
+        li.append(leftDiv, delBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function saveTasks() {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+      const saved = localStorage.getItem("tasks");
+      if(saved) tasks = JSON.parse(saved);
+    }
+
+    loadTasks();
+    displayTasks();
+    setPriority("Low");
+  </script>
+
+</body>
+</html>

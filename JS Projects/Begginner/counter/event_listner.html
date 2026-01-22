@@ -1,0 +1,122 @@
+<!-- this is made using event listiner   -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+
+    <div id="container" class="bg-white rounded-2xl shadow-xl px-10 py-20 w-150 h-100 text-center">
+
+        <!-- Count -->
+        <p id="count" class="text-9xl font-bold text-gray-800 mb-15">
+            0
+        </p>
+        <!-- show message  -->
+        <!-- Buttons -->
+        <div id="buttons" class="flex justify-between gap-4">
+
+            <button id="btnplus"
+                class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+                +
+            </button>
+
+            <button id="btnminus"
+                class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+                -
+            </button>
+
+            <button id="btnreset"
+                class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+                Reset
+            </button>
+
+            <button id="btnsave"
+                class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+                Save
+            </button>
+            <button id="btnload"
+                class="flex-1 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">
+                Load
+            </button>
+        </div>
+        <p id="message" class="text-2xl font-bold text-gray-800 mt-5"></p>
+    </div>
+
+
+    <!-- javascript here baby -->
+    <script>
+        document.getElementById("btnplus").addEventListener("click", increasecount);
+        document.getElementById("btnminus").addEventListener("click", decreasecount);
+        document.getElementById("btnreset").addEventListener("click", resetcount);
+        document.getElementById("btnsave").addEventListener("click", savecount);
+        document.getElementById("btnload").addEventListener("click", loadcount);
+
+        const msgEl=document.getElementById("message");
+
+        // declare count 
+        let count = 0;
+        //load counter when the page opens
+        loadcount();
+        //Function to displlay counter
+        function updatecount() {
+            document.getElementById("count").innerText = count;
+        }
+
+        //function to increase the counter
+        function increasecount() {
+            count++;
+            updatecount();
+            showMessage("increment!")
+        }
+
+        //function to decrease the counter
+        function decreasecount() {
+            if (count > 0) {
+                count--;
+                updatecount();
+                showMessage("Decrement!")
+            }
+
+        }
+        //function to reset the counter
+        function resetcount() {
+            count = 0;
+            updatecount();
+              showMessage("Reset!")
+        }
+        //function to save the counetr
+        function savecount() {
+            localStorage.setItem("count", count);
+            showMessage("Saved!")
+        }
+        //function to load the counter
+        function loadcount() {
+            let saved = localStorage.getItem("count");
+            if (saved !== null) {
+                count = Number(saved);
+                 showMessage("Loaded!")
+            }
+           
+            updatecount();
+        }
+
+        // show meassage 
+        function showMessage(text) {
+            msgEl.innerHTML = text;
+            setTimeout(function () {
+                msgEl.innerHTML = "";
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
